@@ -1,0 +1,32 @@
+None of these Commands are needed anymore and some of them might have less features or even cause problems.
+
+Commands for terminal;
+
+Basic Structure: /Command Option Arguments
+Global chat messages: text without ‚/‚ in the beginning
+Example: /change name Mario					Action: Changes nickname of Player sending the request to ‚Mario‘
+Example: /msg Mario hello Mario				Action: Sends a private message ‚hello Mario‘ to player ‚Mario‘
+
+For command and option the letter case is being ignored
+
+
+Command		Option		Arguments		Comments
+
+change		name		[NewName]		changes clients name to NewName
+		status		[Status]		changes clients status to Status. Possible options for Status: ready|waiting
+
+quit		-		-			terminates client thread, disconnects client from server, but does not close chat window
+
+msg		[name]		[message]		sends a private chat message to player called „name“
+
+broadcast	-		[message]		broadcast a message to all clients across all games and lobbies
+
+new		game					starts a new game with 4 players
+
+play		[PlaceFrom] [N]	[PlaceTo] [N]		puts a card from the pile "PlaceFrom" to the pile "PlaceTo"
+							PlaceFrom: StockPile 1|HandCard N (N = numer from 1 to 5)|DiscardPileN (N = numer from 1 to 4)
+							PlaceTo: BuildPile N|DiscardPile N (N = number from 1 to 4)
+							Watch out: command must be written correctly, exceptions by this command are not being handled
+
+list		games					lists all open, ongoing and finished games
+		players					lists all players currently connected to the server

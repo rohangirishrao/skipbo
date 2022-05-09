@@ -1,0 +1,170 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Player</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">skipbo.game</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Player (skipbo.game)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Player</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 13)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 19)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package skipbo.game;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import skipbo.server.SBListener;
+<i>4</i>&nbsp;
+<i>5</i>&nbsp;import java.util.ArrayList;
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;import static skipbo.server.SBServer.servLog;
+<i>8</i>&nbsp;
+<i>9</i>&nbsp;/**
+<i>10</i>&nbsp; * Class Player constructs a Player object with defined parameters
+<i>11</i>&nbsp; */
+<i>12</i>&nbsp;public class Player {
+<i>13</i>&nbsp;
+<i>14</i>&nbsp;    private String name;
+<i>15</i>&nbsp;    private int id;
+<i>16</i>&nbsp;    private SBListener sbListen;
+<i>17</i>&nbsp;    private Game game;
+<i>18</i>&nbsp;    private Pile piles;
+<i>19</i>&nbsp;    private Status status;
+<i>20</i>&nbsp;
+<i>21</i>&nbsp;    /**
+<i>22</i>&nbsp;     * Player constructor to build a Player object with
+<i>23</i>&nbsp;     * an int id, String name and a ServerListener object specific to the player
+<i>24</i>&nbsp;     *
+<i>25</i>&nbsp;     * @param id
+<i>26</i>&nbsp;     * @param name
+<i>27</i>&nbsp;     * @param sbListen
+<i>28</i>&nbsp;     */
+<b class="nc"><i>29</i>&nbsp;    public Player(int id, String name, SBListener sbListen) {</b>
+<b class="nc"><i>30</i>&nbsp;        this.id = id;</b>
+<b class="nc"><i>31</i>&nbsp;        this.name = name;</b>
+<b class="nc"><i>32</i>&nbsp;        this.sbListen = sbListen;</b>
+<b class="nc"><i>33</i>&nbsp;        this.piles = new Pile(id);</b>
+<b class="nc"><i>34</i>&nbsp;        this.status = Status.valueOf(&quot;WAITING&quot;);</b>
+<i>35</i>&nbsp;
+<i>36</i>&nbsp;    }
+<i>37</i>&nbsp;
+<i>38</i>&nbsp;    public String getName() {
+<b class="nc"><i>39</i>&nbsp;        return this.name;</b>
+<i>40</i>&nbsp;    }
+<i>41</i>&nbsp;
+<i>42</i>&nbsp;    public void changeName(String name) {
+<b class="nc"><i>43</i>&nbsp;        this.name = name;</b>
+<i>44</i>&nbsp;    }
+<i>45</i>&nbsp;
+<i>46</i>&nbsp;    public int getId() {
+<b class="nc"><i>47</i>&nbsp;        return this.id;</b>
+<i>48</i>&nbsp;    }
+<i>49</i>&nbsp;
+<i>50</i>&nbsp;    public SBListener getSBL() {
+<b class="nc"><i>51</i>&nbsp;        return this.sbListen;</b>
+<i>52</i>&nbsp;    }
+<i>53</i>&nbsp;
+<i>54</i>&nbsp;    public Status getStatus() {
+<b class="nc"><i>55</i>&nbsp;        return this.status;</b>
+<i>56</i>&nbsp;    }
+<i>57</i>&nbsp;
+<i>58</i>&nbsp;    public void changeStatus(Status ps) {
+<b class="nc"><i>59</i>&nbsp;        this.status = ps;</b>
+<b class="nc"><i>60</i>&nbsp;        servLog.info(this.name + &quot; status set to: &quot; + ps + &quot;.&quot;);</b>
+<i>61</i>&nbsp;    }
+<i>62</i>&nbsp;
+<i>63</i>&nbsp;    public Game getGame() {
+<b class="nc"><i>64</i>&nbsp;        return this.game;</b>
+<i>65</i>&nbsp;    }
+<i>66</i>&nbsp;
+<i>67</i>&nbsp;    public void changeGame(Game game) {
+<b class="nc"><i>68</i>&nbsp;        this.game = game;</b>
+<i>69</i>&nbsp;    }
+<i>70</i>&nbsp;
+<i>71</i>&nbsp;    public ArrayList&lt;Card&gt; getStockPile() {
+<b class="nc"><i>72</i>&nbsp;        return this.piles.stockPile;</b>
+<i>73</i>&nbsp;    }
+<i>74</i>&nbsp;
+<i>75</i>&nbsp;    public ArrayList&lt;Card&gt; getHandCards() { // returns the name of the Player object
+<b class="nc"><i>76</i>&nbsp;        return this.piles.handCards;</b>
+<i>77</i>&nbsp;    }
+<i>78</i>&nbsp;
+<i>79</i>&nbsp;    public ArrayList&lt;ArrayList&lt;Card&gt;&gt; getDiscardPile() {
+<b class="nc"><i>80</i>&nbsp;        return this.piles.discardPiles;</b>
+<i>81</i>&nbsp;    }
+<i>82</i>&nbsp;
+<i>83</i>&nbsp;    public void addCardToHand(Card card) {
+<b class="nc"><i>84</i>&nbsp;        this.getHandCards().add(card);</b>
+<i>85</i>&nbsp;    }
+<i>86</i>&nbsp;
+<i>87</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-04-05 22:38</div>
+</div>
+</body>
+</html>

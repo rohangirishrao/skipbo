@@ -1,0 +1,217 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Pile</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">skipbo.game</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Pile (skipbo.game)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Pile</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 54)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package skipbo.game;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import java.awt.*;
+<i>4</i>&nbsp;import java.util.ArrayList;
+<i>5</i>&nbsp;import java.util.Arrays;
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;public class Pile {
+<i>8</i>&nbsp;
+<i>9</i>&nbsp;    public ArrayList&lt;Card&gt; drawPile;
+<i>10</i>&nbsp;    public ArrayList&lt;Card&gt; stockPile;
+<i>11</i>&nbsp;    public ArrayList&lt;Card&gt; handCards; // 1 draw pile
+<i>12</i>&nbsp;    public ArrayList&lt;ArrayList&lt;Card&gt;&gt; buildPiles;// ArrayList for the 4 build decks in the middle
+<i>13</i>&nbsp;    public ArrayList&lt;ArrayList&lt;Card&gt;&gt; discardPiles;
+<i>14</i>&nbsp;    public Player player;
+<i>15</i>&nbsp;    private int numOfCards;
+<i>16</i>&nbsp;    private int size;
+<i>17</i>&nbsp;    private int id;
+<i>18</i>&nbsp;
+<i>19</i>&nbsp;    /**
+<i>20</i>&nbsp;     * The Pile-constructor is overloaded because we have different
+<i>21</i>&nbsp;     * types of piles for the Game and Player.
+<i>22</i>&nbsp;     * &lt;p&gt;
+<i>23</i>&nbsp;     * The Pile-constructor for the Player needs the Player-ID, this
+<i>24</i>&nbsp;     * assures that we can identify the different piles.
+<i>25</i>&nbsp;     */
+<b class="nc"><i>26</i>&nbsp;    public Pile() {   // Pile without id (for Game)</b>
+<b class="nc"><i>27</i>&nbsp;        this.drawPile = new ArrayList&lt;Card&gt;();</b>
+<b class="nc"><i>28</i>&nbsp;        this.buildPiles = new ArrayList&lt;ArrayList&lt;Card&gt;&gt;();</b>
+<i>29</i>&nbsp;    }
+<i>30</i>&nbsp;
+<b class="nc"><i>31</i>&nbsp;    public Pile(int id) {   // Pile with id (for Player)</b>
+<b class="nc"><i>32</i>&nbsp;        this.id = id;</b>
+<b class="nc"><i>33</i>&nbsp;        this.discardPiles = new ArrayList&lt;ArrayList&lt;Card&gt;&gt;();</b>
+<i>34</i>&nbsp;
+<b class="nc"><i>35</i>&nbsp;        for (int i = 0; i &lt; 4; i++) {</b>
+<b class="nc"><i>36</i>&nbsp;            ArrayList&lt;Card&gt; deck = new ArrayList&lt;Card&gt;();</b>
+<b class="nc"><i>37</i>&nbsp;            discardPiles.add(deck);</b>
+<i>38</i>&nbsp;        }
+<i>39</i>&nbsp;
+<b class="nc"><i>40</i>&nbsp;        this.stockPile = new ArrayList&lt;Card&gt;();</b>
+<b class="nc"><i>41</i>&nbsp;        this.handCards = new ArrayList&lt;Card&gt;();</b>
+<i>42</i>&nbsp;    }
+<i>43</i>&nbsp;
+<i>44</i>&nbsp;    /**{@literal
+<i>45</i>&nbsp;     * The method gamePiles() creates all cards of a full set and
+<i>46</i>&nbsp;     * puts them in a &quot;ArrayList&lt;Card&gt;-pile&quot; (named: drawPile).
+<i>47</i>&nbsp;     * &lt;p&gt;
+<i>48</i>&nbsp;     * It also creates an &quot;ArrayList&lt;ArrayList&lt;Cards&gt;&gt;-set&quot; (named: buildPiles),
+<i>49</i>&nbsp;     * which contains four empty &quot;ArrayList&lt;Card&gt;-piles&quot;.
+<i>50</i>&nbsp;     * &lt;p&gt;
+<i>51</i>&nbsp;     * Every card has a number and a colour.
+<i>52</i>&nbsp;     * &lt;p&gt;
+<i>53</i>&nbsp;     * Booth piles are elements of a Pile-Object.}
+<i>54</i>&nbsp;     */
+<i>55</i>&nbsp;
+<i>56</i>&nbsp;    public void gamePiles() {    // All Cards are created, and the build-pile is added
+<i>57</i>&nbsp;
+<b class="nc"><i>58</i>&nbsp;        int colourCount = 0;</b>
+<i>59</i>&nbsp;
+<b class="nc"><i>60</i>&nbsp;        ArrayList&lt;Color&gt; colours = new ArrayList&lt;Color&gt;();     // Save five different colours</b>
+<b class="nc"><i>61</i>&nbsp;        colours.add(Color.yellow);      // Color index Nr. 0</b>
+<b class="nc"><i>62</i>&nbsp;        colours.add(Color.orange);      // Color index Nr. 1</b>
+<b class="nc"><i>63</i>&nbsp;        colours.add(Color.green);       // Color index Nr. 2</b>
+<b class="nc"><i>64</i>&nbsp;        colours.add(Color.red);         // Color index Nr. 3</b>
+<b class="nc"><i>65</i>&nbsp;        colours.add(Color.cyan);        // Color index Nr. 4</b>
+<i>66</i>&nbsp;
+<b class="nc"><i>67</i>&nbsp;        for (int j = 0; j &lt; 12; j++) {        // Add Normal Cards (144 pcs.)</b>
+<b class="nc"><i>68</i>&nbsp;            for (int i = 0; i &lt; 12; i++) {</b>
+<b class="nc"><i>69</i>&nbsp;                Card card = new Card(i + 1, colours.get(colourCount));</b>
+<b class="nc"><i>70</i>&nbsp;                this.drawPile.add(card);</b>
+<i>71</i>&nbsp;            }
+<b class="nc"><i>72</i>&nbsp;            colourCount++;</b>
+<b class="nc"><i>73</i>&nbsp;            if (colourCount == 3) colourCount = 0;</b>
+<i>74</i>&nbsp;        }
+<b class="nc"><i>75</i>&nbsp;        for (int l = 0; l &lt; 18; l++) {       // Add Special Cards (18 pcs.)</b>
+<b class="nc"><i>76</i>&nbsp;            Card card = new Card(colours.get(4));</b>
+<b class="nc"><i>77</i>&nbsp;            this.drawPile.add(card);</b>
+<i>78</i>&nbsp;        }
+<i>79</i>&nbsp;
+<b class="nc"><i>80</i>&nbsp;        for (int i = 0; i &lt; 4; i++) {        // Add four empty card piles (buildPiles)</b>
+<i>81</i>&nbsp;
+<b class="nc"><i>82</i>&nbsp;            ArrayList&lt;Card&gt; deck = new ArrayList&lt;Card&gt;();</b>
+<b class="nc"><i>83</i>&nbsp;            this.buildPiles.add(deck);</b>
+<i>84</i>&nbsp;        }
+<i>85</i>&nbsp;
+<i>86</i>&nbsp;    }
+<i>87</i>&nbsp;
+<i>88</i>&nbsp;    public String handCardPrint(Player player) {
+<b class="nc"><i>89</i>&nbsp;        ArrayList&lt;Card&gt; handCards = player.getHandCards();</b>
+<b class="nc"><i>90</i>&nbsp;        int len = handCards.size();</b>
+<b class="nc"><i>91</i>&nbsp;        int[] a = new int[len];</b>
+<b class="nc"><i>92</i>&nbsp;        for (int i = 0; i &lt; len; i++) {</b>
+<b class="nc"><i>93</i>&nbsp;            a[i] = handCards.get(i).number;</b>
+<i>94</i>&nbsp;        }
+<b class="nc"><i>95</i>&nbsp;        return Arrays.toString(a);</b>
+<i>96</i>&nbsp;    }
+<i>97</i>&nbsp;
+<i>98</i>&nbsp;    public String buildPilesPrint() {
+<b class="nc"><i>99</i>&nbsp;        StringBuilder str = new StringBuilder();</b>
+<b class="nc"><i>100</i>&nbsp;        for (int i = 0; i &lt; 4; i++) {</b>
+<b class="nc"><i>101</i>&nbsp;            ArrayList&lt;Card&gt; specBuildPile = buildPiles.get(i);</b>
+<b class="nc"><i>102</i>&nbsp;            if (specBuildPile.isEmpty()) {</b>
+<b class="nc"><i>103</i>&nbsp;                str.append(&quot;Build pile &quot; + i + &quot; is : [ ]&quot;);</b>
+<i>104</i>&nbsp;            } else {
+<b class="nc"><i>105</i>&nbsp;                str.append(&quot;Build pile &quot; + i + &quot; is: [&quot; + specBuildPile.get(specBuildPile.size() - 1).number + &quot;]&quot; + &quot;\t&quot;);</b>
+<i>106</i>&nbsp;            }
+<i>107</i>&nbsp;        }
+<b class="nc"><i>108</i>&nbsp;        return str.toString();</b>
+<i>109</i>&nbsp;    }
+<i>110</i>&nbsp;
+<i>111</i>&nbsp;    public String discardPilesPrint(Player player) {
+<b class="nc"><i>112</i>&nbsp;        StringBuilder str = new StringBuilder();</b>
+<b class="nc"><i>113</i>&nbsp;        for (int i = 0; i &lt; 4; i++) {</b>
+<b class="nc"><i>114</i>&nbsp;            ArrayList&lt;Card&gt; specDiscardPile = player.getDiscardPile().get(i);</b>
+<b class="nc"><i>115</i>&nbsp;            int[] printArray = new int[specDiscardPile.size()];</b>
+<b class="nc"><i>116</i>&nbsp;            for (int j = 0; j &lt; specDiscardPile.size(); j++) {</b>
+<b class="nc"><i>117</i>&nbsp;                printArray[j] = specDiscardPile.get(j).number;</b>
+<i>118</i>&nbsp;            }
+<b class="nc"><i>119</i>&nbsp;            int t = i + 1;</b>
+<b class="nc"><i>120</i>&nbsp;            str.append(&quot;Discard Pile &quot; + t + &quot; of &quot; + player.getName() + &quot; is: &quot; + Arrays.toString(printArray) + &quot;\t&quot;);</b>
+<i>121</i>&nbsp;        }
+<b class="nc"><i>122</i>&nbsp;        return str.toString();</b>
+<i>123</i>&nbsp;    }
+<i>124</i>&nbsp;
+<i>125</i>&nbsp;    public Card getDrawPileTopCard() {
+<b class="nc"><i>126</i>&nbsp;        return drawPile.get(drawPile.size() - 1);</b>
+<i>127</i>&nbsp;    }
+<i>128</i>&nbsp;
+<i>129</i>&nbsp;    public int getNumOfStockPile() {
+<b class="nc"><i>130</i>&nbsp;        return stockPile.size();</b>
+<i>131</i>&nbsp;    }
+<i>132</i>&nbsp;
+<i>133</i>&nbsp;}
+<i>134</i>&nbsp;
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-04-05 22:38</div>
+</div>
+</body>
+</html>

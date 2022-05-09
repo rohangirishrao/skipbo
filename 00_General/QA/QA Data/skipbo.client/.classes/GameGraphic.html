@@ -1,0 +1,163 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: GameGraphic</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">skipbo.client</a> ]
+</div>
+
+<h1>Coverage Summary for Class: GameGraphic (skipbo.client)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GameGraphic</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 6)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package skipbo.client;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;
+<i>4</i>&nbsp;import javax.swing.*;
+<i>5</i>&nbsp;import javax.swing.border.EmptyBorder;
+<i>6</i>&nbsp;import java.awt.*;
+<i>7</i>&nbsp;import java.awt.event.KeyEvent;
+<i>8</i>&nbsp;import java.awt.event.KeyListener;
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;public class GameGraphic implements KeyListener{ //ActionListener
+<i>11</i>&nbsp;
+<i>12</i>&nbsp;    ChatGraphic chatGraphic;
+<i>13</i>&nbsp;
+<b class="nc"><i>14</i>&nbsp;    GameGraphic(ChatGraphic chatGraphic) {</b>
+<b class="nc"><i>15</i>&nbsp;        this.chatGraphic = chatGraphic;</b>
+<i>16</i>&nbsp;    }
+<i>17</i>&nbsp;
+<i>18</i>&nbsp;    void setGameGraphic() {
+<i>19</i>&nbsp;
+<b class="nc"><i>20</i>&nbsp;        chatGraphic.setTitle(&quot;Skip-Bros GAME&quot;);</b>
+<b class="nc"><i>21</i>&nbsp;        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();</b>
+<b class="nc"><i>22</i>&nbsp;        chatGraphic.setBounds(100, 100, dim.width, dim.height);</b>
+<b class="nc"><i>23</i>&nbsp;        chatGraphic.setLocationRelativeTo(null);</b>
+<i>24</i>&nbsp;
+<i>25</i>&nbsp; /*       setTitle(&quot;Skip-Bros CHAT&quot;);
+<i>26</i>&nbsp;        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+<i>27</i>&nbsp;        setBounds(100, 100, 520, 485);
+<i>28</i>&nbsp;
+<i>29</i>&nbsp;        contentPane = new JPanel();
+<i>30</i>&nbsp;        contentPane.setBackground(Color.black);
+<i>31</i>&nbsp;        contentPane.setBorder(new EmptyBorder(5,5,5,5));
+<i>32</i>&nbsp;        setContentPane(contentPane);
+<i>33</i>&nbsp;        contentPane.setLayout(null);
+<i>34</i>&nbsp;
+<i>35</i>&nbsp;        //Output textfield
+<i>36</i>&nbsp;        chat = new JTextArea(); //TODO: change to JEditorPane or JTextPane to print in colour
+<i>37</i>&nbsp;        chat.setBounds(20, 30 ,250, 400);
+<i>38</i>&nbsp;        chat.setLineWrap(true);
+<i>39</i>&nbsp;        chat.setWrapStyleWord(true);
+<i>40</i>&nbsp;        chat.setEditable(false);
+<i>41</i>&nbsp;
+<i>42</i>&nbsp;        chatScrollPane = new JScrollPane(chat);
+<i>43</i>&nbsp;        chatScrollPane.setBounds(20, 30 ,250, 400 );
+<i>44</i>&nbsp;        chatScrollPane.setVisible(true);
+<i>45</i>&nbsp;        chatScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+<i>46</i>&nbsp;        contentPane.add(chatScrollPane);
+<i>47</i>&nbsp;
+<i>48</i>&nbsp;        //Input textfield
+<i>49</i>&nbsp;        inputMes = new JTextArea();
+<i>50</i>&nbsp;        inputMes.setBounds(290, 350,200, 80);
+<i>51</i>&nbsp;        inputMes.setEditable(true);
+<i>52</i>&nbsp;        inputMes.setColumns(3);
+<i>53</i>&nbsp;        inputMes.setLineWrap(true);
+<i>54</i>&nbsp;        inputMes.setWrapStyleWord(true);
+<i>55</i>&nbsp;        inputMes.addKeyListener(this);
+<i>56</i>&nbsp;        contentPane.add(inputMes);
+<i>57</i>&nbsp;
+<i>58</i>&nbsp;        inputScrollPane = new JScrollPane(inputMes);
+<i>59</i>&nbsp;        inputScrollPane.setBounds(290, 350,200, 80);
+<i>60</i>&nbsp;        inputScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+<i>61</i>&nbsp;        contentPane.add(inputScrollPane);*/
+<i>62</i>&nbsp;
+<i>63</i>&nbsp;    }
+<i>64</i>&nbsp;
+<i>65</i>&nbsp;
+<i>66</i>&nbsp;    @Override
+<i>67</i>&nbsp;    public void keyTyped(KeyEvent keyEvent) {
+<i>68</i>&nbsp;
+<i>69</i>&nbsp;    }
+<i>70</i>&nbsp;
+<i>71</i>&nbsp;    @Override
+<i>72</i>&nbsp;    public void keyPressed(KeyEvent keyEvent) {
+<i>73</i>&nbsp;
+<i>74</i>&nbsp;    }
+<i>75</i>&nbsp;
+<i>76</i>&nbsp;    @Override
+<i>77</i>&nbsp;    public void keyReleased(KeyEvent keyEvent) {
+<i>78</i>&nbsp;
+<i>79</i>&nbsp;    }
+<i>80</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-04-05 22:38</div>
+</div>
+</body>
+</html>

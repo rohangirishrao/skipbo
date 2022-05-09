@@ -1,0 +1,145 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: SBClient</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">skipbo.client</a> ]
+</div>
+
+<h1>Coverage Summary for Class: SBClient (skipbo.client)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SBClient</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/ 3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    54.5%
+  </span>
+  <span class="absValue">
+    (12/ 22)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package skipbo.client;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import org.apache.logging.log4j.LogManager;
+<i>4</i>&nbsp;import org.apache.logging.log4j.Logger;
+<i>5</i>&nbsp;
+<i>6</i>&nbsp;import java.io.IOException;
+<i>7</i>&nbsp;import java.net.Socket;
+<i>8</i>&nbsp;
+<i>9</i>&nbsp;/**
+<i>10</i>&nbsp; * A Skip-Bo client.
+<i>11</i>&nbsp; */
+<i>12</i>&nbsp;public class SBClient implements Runnable {
+<i>13</i>&nbsp;
+<b class="fc"><i>14</i>&nbsp;    public static Logger clientLog = LogManager.getLogger(SBClient.class);</b>
+<i>15</i>&nbsp;
+<i>16</i>&nbsp;    String[] args;
+<i>17</i>&nbsp;
+<i>18</i>&nbsp;    /**
+<i>19</i>&nbsp;     * Creates a new SBClient Object.
+<i>20</i>&nbsp;     * @param args: command-line arguments given by Main class: {@literal &lt;hostAddress&gt;:&lt;port&gt; [&lt;username&gt;] }
+<i>21</i>&nbsp;     */
+<b class="fc"><i>22</i>&nbsp;    public SBClient(String[] args) {</b>
+<b class="fc"><i>23</i>&nbsp;        this.args = args;</b>
+<b class="fc"><i>24</i>&nbsp;    }</b>
+<i>25</i>&nbsp;
+<i>26</i>&nbsp;    /**
+<i>27</i>&nbsp;     * Establishes a connection to the Skip-Bo server via SBClientListener thread and SBServerListener thread and
+<i>28</i>&nbsp;     * opens the GUI
+<i>29</i>&nbsp;     */
+<i>30</i>&nbsp;    public void run() {
+<i>31</i>&nbsp;
+<i>32</i>&nbsp;        try {
+<b class="fc"><i>33</i>&nbsp;            String[] ipAndPort = args[0].split(&quot;:&quot;);</b>
+<b class="fc"><i>34</i>&nbsp;            String ip = ipAndPort[0];</b>
+<b class="fc"><i>35</i>&nbsp;            int port = Integer.parseInt(ipAndPort[1]);</b>
+<i>36</i>&nbsp;
+<b class="fc"><i>37</i>&nbsp;            clientLog.info(&quot;Connecting to port &quot; + port + &quot;…&quot;);</b>
+<b class="fc"><i>38</i>&nbsp;            Socket sock = new Socket(ip , port);</b>
+<i>39</i>&nbsp;
+<i>40</i>&nbsp;            //Start SBClientListener Thread
+<b class="nc"><i>41</i>&nbsp;            SBClientListener clientListener = new SBClientListener(sock);</b>
+<i>42</i>&nbsp;
+<i>43</i>&nbsp;            //GUI
+<i>44</i>&nbsp;            ChatGraphic frame;
+<b class="nc"><i>45</i>&nbsp;            if (args.length == 2) {</b>
+<b class="nc"><i>46</i>&nbsp;                frame = new ChatGraphic(clientListener, args[1]);</b>
+<i>47</i>&nbsp;            } else {
+<b class="nc"><i>48</i>&nbsp;                frame = new ChatGraphic(clientListener);</b>
+<i>49</i>&nbsp;            }
+<b class="nc"><i>50</i>&nbsp;            frame.addWindowListener(new WindowHandler(clientListener));</b>
+<b class="nc"><i>51</i>&nbsp;            frame.setVisible(true);</b>
+<i>52</i>&nbsp;
+<i>53</i>&nbsp;            //Start SBServerListener Thread
+<b class="nc"><i>54</i>&nbsp;            SBServerListener serverListener = new SBServerListener(sock, frame);</b>
+<b class="nc"><i>55</i>&nbsp;            Thread sListener = new Thread(serverListener);</b>
+<b class="nc"><i>56</i>&nbsp;            sListener.start();</b>
+<i>57</i>&nbsp;
+<b class="fc"><i>58</i>&nbsp;        } catch (IOException e) {</b>
+<b class="fc"><i>59</i>&nbsp;            clientLog.fatal(&quot;Error while connecting to server.&quot;);</b>
+<b class="nc"><i>60</i>&nbsp;        }</b>
+<b class="fc"><i>61</i>&nbsp;    }</b>
+<i>62</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-04-05 22:38</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,102 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.8'
+	id 'jacoco'
+}
+
+//apply plugin: 'java'
+
+javafx {
+    version = "11.0.2"
+    modules = ['javafx.controls', 'javafx.fxml', 'javafx.base']
+}
+
+group 'ch.unibas.dmi.dbis'
+version 'Alpha'
+mainClassName = 'skipbo.server.Main'
+
+//specifies source compatibility to Java 11
+sourceCompatibility = 1.11
+
+//adds maven central as a maven repository
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+/* The following lines are extensively documented. Please remove the documentation when you have read and understood it. */
+dependencies {
+    // EXAMPLE: LOGGING
+    /*
+    The following adds the logging framework Apache Log4J2.
+    The statements serve as an example on how to use libraries.
+    Since these are `implementation` dependencies, they are packed in the final jar.
+    Read the documentation at https://docs.gradle.org/current/userguide/declaring_dependencies.html to learn more
+     */
+    implementation 'org.apache.logging.log4j:log4j-api:2.+'
+    implementation 'org.apache.logging.log4j:log4j-core:2.+'
+    // https://mvnrepository.com/artifact/com.sun/tools
+
+
+    /*
+    This is another example - it imports the javafx-controls dependency
+     */
+    implementation 'org.openjfx:javafx-controls:11.0.2'
+	
+	// https://mvnrepository.com/artifact/com.googlecode.soundlibs/mp3spi
+	compile group: 'com.googlecode.soundlibs', name: 'mp3spi', version: '1.9.5.4'
+    // https://mvnrepository.com/artifact/com.googlecode.soundlibs/jlayer
+    compile group: 'com.googlecode.soundlibs', name: 'jlayer', version: '1.0.1.4'
+    // https://mvnrepository.com/artifact/com.googlecode.soundlibs/tritonus-share
+    compile group: 'com.googlecode.soundlibs', name: 'tritonus-share', version: '0.3.7.4'
+
+
+
+    // JUNIT
+    /*
+    The following dependency is required to perform JUnit tests, as for example HelloWorldTest.
+    Since it is a `testCompile` dependency, it will not be part of the final product, only during testing.
+     */
+    testImplementation 'junit:junit:4.+'
+}
+
+
+// The following block adds both compile and runtime dependencies to the jar
+
+jar {
+    manifest {
+        attributes('Main-Class' : 'skipbo.server.Main')
+    }
+    from {
+        configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+
+}
+
+/*jacoco {
+    applyTo run
+}*/
+
+jacocoTestReport {
+    reports {
+        xml.enabled false
+        csv.enabled false
+        html.destination file("${buildDir}/jacocoHtml")
+    }
+}
+
+/*task applicationCodeCoverageReport(type:JacocoReport) {
+    executionData run
+    sourceSets sourceSets.main
+}*/
+
+tasks.register("build-cs108") {
+    dependsOn javadoc, jar
+}
+
+test {
+    finalizedBy jacocoTestReport
+}
+

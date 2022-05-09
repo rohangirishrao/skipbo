@@ -1,0 +1,50 @@
+
+Basic Structure: XXXXX§Option§Arguments
+Example: PRINT§Terminal§Please enter nickname:	Action: Prints ‚Please enter nickname:‘ on terminal of client
+Example: CHNGE§Nickname§Marc			Action: Changes nickname of Player sending request to ‚Marc‘
+
+Section		Command		Option		Arguments				Comments
+
+General		PRINT		Terminal	String message				prints ‚message‘ on the receiver’s terminal
+
+Lobby		SETTO		Nickname	String nickname				sets nickname of new player to ‚nickname‘
+		CHNGE		Nickname	String nickname 			changes nickname of player sending the request to ‚nickname‘
+				Status 		PlayerStatus ps				sets senders PlayerStatus to ‚ps‘
+		LGOUT		-		-					from client: logout request to server; from server: logout confirmation to client
+		DISPL		players		String playerList			lists all players currently connected to the server
+				games		String gameList				lists all open, ongoing and finished games
+				highscore	String highscore			sends a highscore to client
+Player		PLAYR		List		String nicknames			Tells client which players are already connected to the server. (sent when client logs in and
+											own name should not be sent)
+				Joined		String nickname				Tells client that the player with the name "nickname" joined the server
+				Left		String nickname				Tells client that the player with the name "nickname" left the server
+				Change		String OldName, String NewName		Tells client that the player with the name "oldName" change its name to "NewName"
+				LeaveGame	String nickname				Tells all clients in the game that the player with name "nickname" left the game
+
+
+Chat		CHATM		Global		String message				sends ‚message‘ to write on the global chat
+				Private		(Player p), String message		sends private ,message’ to player p
+				Broadcast	String message				sends 'message' to all clients across all games and lobbies	
+
+Game		NWGME		New		int n, int x				starts new game with n players and a stockpile that consisting of x cards
+				Names		int n, Nx {String name}			confirms to client that game with x stockcards is starting, with the names
+											of the N players in that game as argument
+				Cards		5x {Colour c, int number},		tells client which cards the player has at the beginning of the game
+						Nx {String name. colour c, int num}	and the top stockpile cards of the N player in the game
+											(first 5 are hand cards, last one is the top card of the stockpile)
+		ENDGM		Winner		String name, double score		signals client that game is ending, player with ‚name‘ won with ‚score‘
+				Terminated	-					signals client that game ended without a winner because every player except one left
+		PUTTO		Card		Pile from, int i, Pile to, int j	requests to put card from pile ‚from‘, index ‚i’, to pile ‚to‘, index ‚j‘
+				Response	Pile from, int i, Pile to, int j, 	tells client to execute the move (as stated above) by player with name ‚name‘
+						String ‚name‘, Colour c, int x		and tells client which card has been moved
+				StockResponse	Pile from, int i, Pile to, int j, 	tells client to execute the move (as stated above) by player ‚p‘ plus 
+						String name, Colour c1, int x1,	what the new top card of the stockpile is (colour ‚c1‘ and number ‚x1‘)
+						Colour c2, int x2			and which card has been moved (colour ‚c2‘ and number ‚x2‘)
+				Update		pile, index1, index2, name, colour,	Tells client what move the client with name 'name' made. Case discard to build: no pile, colour and number
+						number 					case stock to build: no pile, only 1 index;					
+						
+		CHECK		HandCards	5x {Colour c, int number}		tells client which hand cards the player has
+				StockCard	Colour c, int number			tells client what its top card of the stockpile is
+
+		CHEAT		Joker		String name				client wants to use the Joker-cheat (gets one joker on each discard pile and 5 stock cards are added
+				Win							client wants to use the win-cheat (wins game instantly)

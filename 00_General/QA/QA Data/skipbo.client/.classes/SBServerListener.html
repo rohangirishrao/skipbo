@@ -1,0 +1,216 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: SBServerListener</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">skipbo.client</a> ]
+</div>
+
+<h1>Coverage Summary for Class: SBServerListener (skipbo.client)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SBServerListener</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 39)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">SBServerListener$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 40)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package skipbo.client;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import skipbo.server.Protocol;
+<i>4</i>&nbsp;import skipbo.server.NoCommandException;
+<i>5</i>&nbsp;
+<i>6</i>&nbsp;import javax.swing.*;
+<i>7</i>&nbsp;import java.io.BufferedReader;
+<i>8</i>&nbsp;import java.io.IOException;
+<i>9</i>&nbsp;import java.io.InputStreamReader;
+<i>10</i>&nbsp;import java.net.Socket;
+<i>11</i>&nbsp;
+<i>12</i>&nbsp;import static skipbo.client.SBClient.clientLog;
+<i>13</i>&nbsp;
+<i>14</i>&nbsp;/**
+<i>15</i>&nbsp; * Thread waiting for any input from server and executes the input on client
+<i>16</i>&nbsp; */
+<i>17</i>&nbsp;class SBServerListener implements Runnable {
+<i>18</i>&nbsp;    Socket socket;
+<i>19</i>&nbsp;    BufferedReader br;
+<i>20</i>&nbsp;    ChatGraphic chatGraphic;
+<b class="nc"><i>21</i>&nbsp;    Boolean isLoggedIn = true;</b>
+<i>22</i>&nbsp;
+<b class="nc"><i>23</i>&nbsp;    SBServerListener(Socket socket, ChatGraphic chatGraphic) throws IOException {</b>
+<b class="nc"><i>24</i>&nbsp;        this.socket = socket;</b>
+<b class="nc"><i>25</i>&nbsp;        this.br = new BufferedReader(new InputStreamReader(socket.getInputStream()));</b>
+<b class="nc"><i>26</i>&nbsp;        this.chatGraphic = chatGraphic;</b>
+<i>27</i>&nbsp;    }
+<i>28</i>&nbsp;
+<i>29</i>&nbsp;    /**
+<i>30</i>&nbsp;     * Constantly reads input from server. Forwards input to executeCommand method which executes the input on client
+<i>31</i>&nbsp;     */
+<i>32</i>&nbsp;    @Override
+<i>33</i>&nbsp;    public void run() {
+<i>34</i>&nbsp;        String input;
+<i>35</i>&nbsp;
+<b class="nc"><i>36</i>&nbsp;        while(isLoggedIn) {</b>
+<i>37</i>&nbsp;            try {
+<b class="nc"><i>38</i>&nbsp;                input = br.readLine();</b>
+<b class="nc"><i>39</i>&nbsp;                executeCommand(input);</b>
+<b class="nc"><i>40</i>&nbsp;            } catch (IOException e) {</b>
+<b class="nc"><i>41</i>&nbsp;                clientLog.warn(&quot;Error with reading input from server&quot;);</b>
+<b class="nc"><i>42</i>&nbsp;            } catch (NoCommandException | IllegalArgumentException | NullPointerException e) {</b>
+<b class="nc"><i>43</i>&nbsp;                clientLog.warn(&quot;Error with network protocol command&quot;);</b>
+<b class="nc"><i>44</i>&nbsp;            }</b>
+<i>45</i>&nbsp;        }
+<i>46</i>&nbsp;    }
+<i>47</i>&nbsp;
+<i>48</i>&nbsp;    /**
+<i>49</i>&nbsp;     * Executes commands coming from the server according to network protocol
+<i>50</i>&nbsp;     * @param commandLine Network protocol string from server
+<i>51</i>&nbsp;     * @throws NoCommandException If commandLine string doesn&#39;t match network protocol
+<i>52</i>&nbsp;     */
+<i>53</i>&nbsp;    void executeCommand(String commandLine) throws NoCommandException  {
+<b class="nc"><i>54</i>&nbsp;        String[] command = commandLine.split(&quot;§&quot;, 3);</b>
+<b class="nc"><i>55</i>&nbsp;        Protocol protocol = Protocol.valueOf(command[0]);</b>
+<i>56</i>&nbsp;
+<b class="nc"><i>57</i>&nbsp;        switch (protocol) {</b>
+<i>58</i>&nbsp;            case CHATM:
+<b class="nc"><i>59</i>&nbsp;                chatGraphic.printChatMessage(command[2]);</b>
+<b class="nc"><i>60</i>&nbsp;                break;</b>
+<i>61</i>&nbsp;            case CHNGE:
+<b class="nc"><i>62</i>&nbsp;                chatGraphic.printInfoMessage(command[2]);</b>
+<b class="nc"><i>63</i>&nbsp;                break;</b>
+<i>64</i>&nbsp;            case PUTTO:
+<b class="nc"><i>65</i>&nbsp;                putTo(command);</b>
+<i>66</i>&nbsp;                //TODO
+<b class="nc"><i>67</i>&nbsp;                break;</b>
+<i>68</i>&nbsp;            case LGOUT:
+<b class="nc"><i>69</i>&nbsp;                logOut();</b>
+<b class="nc"><i>70</i>&nbsp;                break;</b>
+<i>71</i>&nbsp;            case PRINT:
+<b class="nc"><i>72</i>&nbsp;                chatGraphic.printInfoMessage(command[2]);</b>
+<b class="nc"><i>73</i>&nbsp;                break;</b>
+<i>74</i>&nbsp;            case NWGME:
+<b class="nc"><i>75</i>&nbsp;                newGame();</b>
+<b class="nc"><i>76</i>&nbsp;                break;</b>
+<i>77</i>&nbsp;            case DISPL:
+<b class="nc"><i>78</i>&nbsp;                chatGraphic.printCommandList();</b>
+<b class="nc"><i>79</i>&nbsp;                break;</b>
+<i>80</i>&nbsp;            default:
+<b class="nc"><i>81</i>&nbsp;                throw new NoCommandException();</b>
+<i>82</i>&nbsp;        }
+<i>83</i>&nbsp;    }
+<i>84</i>&nbsp;
+<i>85</i>&nbsp;    void putTo(String[] command) {
+<b class="nc"><i>86</i>&nbsp;        chatGraphic.printInfoMessage(&quot;Someone played a card&quot;);</b>
+<i>87</i>&nbsp;    }
+<i>88</i>&nbsp;
+<i>89</i>&nbsp;    void newGame() {
+<b class="nc"><i>90</i>&nbsp;        chatGraphic.setGameGraphic();</b>
+<i>91</i>&nbsp;    }
+<i>92</i>&nbsp;
+<i>93</i>&nbsp;    /**
+<i>94</i>&nbsp;     * Terminates SBServerListener thread and sends status message to client
+<i>95</i>&nbsp;     */
+<i>96</i>&nbsp;    void logOut() {
+<i>97</i>&nbsp;        try {
+<b class="nc"><i>98</i>&nbsp;            br.close();</b>
+<b class="nc"><i>99</i>&nbsp;            socket.close();</b>
+<i>100</i>&nbsp;            //printMessage(&quot;Logout successful&quot;);
+<b class="nc"><i>101</i>&nbsp;        } catch (IOException e) {</b>
+<b class="nc"><i>102</i>&nbsp;            clientLog.warn(&quot;Error with closing BufferedReader or Socket&quot;);</b>
+<b class="nc"><i>103</i>&nbsp;        }</b>
+<b class="nc"><i>104</i>&nbsp;        isLoggedIn = false;</b>
+<i>105</i>&nbsp;    }
+<i>106</i>&nbsp;
+<i>107</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-04-05 22:38</div>
+</div>
+</body>
+</html>

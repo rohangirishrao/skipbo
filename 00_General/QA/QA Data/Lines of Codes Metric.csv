@@ -1,0 +1,34 @@
+Lines of code metrics,So., 5 Apr. 2020 22:21:28 MESZ
+Package,LOC,LOC(rec),LOCp,LOCp(rec),LOCt,LOCt(rec)
+"",n/a,1’894,n/a,1’894,n/a,0
+"skipbo",n/a,1’894,n/a,1’894,n/a,0
+"skipbo.client",570,570,570,570,0,0
+"skipbo.dmi",n/a,66,n/a,66,n/a,0
+"skipbo.dmi.dbis",n/a,66,n/a,66,n/a,0
+"skipbo.dmi.dbis.cs108",n/a,66,n/a,66,n/a,0
+"skipbo.dmi.dbis.cs108.example",n/a,66,n/a,66,n/a,0
+"skipbo.dmi.dbis.cs108.example.gui",n/a,66,n/a,66,n/a,0
+"skipbo.dmi.dbis.cs108.example.gui.javafx",42,42,42,42,0,0
+"skipbo.dmi.dbis.cs108.example.gui.swing",24,24,24,24,0,0
+"skipbo.game",642,642,642,642,0,0
+"skipbo.server",616,616,616,616,0,0
+
+Module,L(CSS),L(Groovy),L(HTML),L(J),L(JS),L(JSP),L(KT),L(XML),LOC,LOCp,LOCt,NCLOC,NCLOCp,NCLOCt
+"skipbo",544,60,43,0,0,0,0,0,1’989,0,0,967,0,0
+"skipbo.main",0,0,0,1’894,0,0,0,0,1’894,1’894,0,1’460,1’460,0
+
+FileType,LOC,NCLOC
+".gitignore (GitIgnore)",146,146
+"Cascading style sheet",544,490
+"Files supported via TextMate bundles",61,61
+"Groovy",60,47
+"HTML",43,36
+"Java",1’894,1’460
+"Markdown",24,24
+"Properties",14,13
+"Shell Script",151,150
+"Text",946,n/a
+
+Project,L(CSS),L(Groovy),L(HTML),L(J),L(JS),L(JSP),L(KT),L(XML),LOC,LOCp,LOCt,NCLOC,NCLOCp,NCLOCt
+"project",544,60,43,1’894,0,0,0,0,3’883,1’894,0,2’427,1’460,0
+

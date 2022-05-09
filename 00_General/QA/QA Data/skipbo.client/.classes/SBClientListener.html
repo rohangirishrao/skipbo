@@ -1,0 +1,290 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: SBClientListener</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">skipbo.client</a> ]
+</div>
+
+<h1>Coverage Summary for Class: SBClientListener (skipbo.client)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SBClientListener</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 76)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package skipbo.client;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import java.io.IOException;
+<i>4</i>&nbsp;import java.io.PrintWriter;
+<i>5</i>&nbsp;import java.net.Socket;
+<i>6</i>&nbsp;import skipbo.server.Protocol;
+<i>7</i>&nbsp;
+<i>8</i>&nbsp;import static skipbo.client.SBClient.clientLog;
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;/**
+<i>11</i>&nbsp; * Handles user input by forwarding correct network protocol command to the Server
+<i>12</i>&nbsp; */
+<i>13</i>&nbsp;class SBClientListener {
+<i>14</i>&nbsp;    Socket sock;
+<i>15</i>&nbsp;    PrintWriter pw;
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;    /**
+<i>18</i>&nbsp;     *Creates a Skip-Bo client listener
+<i>19</i>&nbsp;     * @param sock A client socket
+<i>20</i>&nbsp;     * @throws IOException: If an I/O error occurs
+<i>21</i>&nbsp;     */
+<b class="nc"><i>22</i>&nbsp;    SBClientListener(Socket sock) throws IOException {</b>
+<b class="nc"><i>23</i>&nbsp;        this.sock = sock;</b>
+<b class="nc"><i>24</i>&nbsp;        pw = new PrintWriter(sock.getOutputStream(),true);</b>
+<i>25</i>&nbsp;    }
+<i>26</i>&nbsp;
+<i>27</i>&nbsp;    /**
+<i>28</i>&nbsp;     * Forwards user input to server according to network protocol
+<i>29</i>&nbsp;     * @param input Input from client
+<i>30</i>&nbsp;     * @throws NotACommandException If the input doesn&#39;t match any command
+<i>31</i>&nbsp;     */
+<i>32</i>&nbsp;    void forward(String input) throws NotACommandException {
+<i>33</i>&nbsp;
+<b class="nc"><i>34</i>&nbsp;        if (input.isEmpty()) {</b>
+<i>35</i>&nbsp;            return;
+<i>36</i>&nbsp;        }
+<i>37</i>&nbsp;        String protocolString;
+<i>38</i>&nbsp;
+<i>39</i>&nbsp;        //It&#39;s a chat message
+<b class="nc"><i>40</i>&nbsp;        if (!(input.startsWith(&quot;/&quot;))) {</b>
+<b class="nc"><i>41</i>&nbsp;            protocolString = Protocol.CHATM + &quot;§Global§&quot; + input;</b>
+<b class="nc"><i>42</i>&nbsp;            pw.println(protocolString);</b>
+<i>43</i>&nbsp;            return;
+<i>44</i>&nbsp;        }
+<i>45</i>&nbsp;
+<i>46</i>&nbsp;        //It&#39;s not a chat message
+<b class="nc"><i>47</i>&nbsp;        String[] command = input.split(&quot; &quot;, 2);</b>
+<i>48</i>&nbsp;
+<b class="nc"><i>49</i>&nbsp;        switch (command[0].toLowerCase()) {</b>
+<i>50</i>&nbsp;            case &quot;/change&quot;:
+<b class="nc"><i>51</i>&nbsp;                protocolString = getChangeString(input);</b>
+<b class="nc"><i>52</i>&nbsp;                break;</b>
+<i>53</i>&nbsp;            case &quot;/msg&quot;:
+<b class="nc"><i>54</i>&nbsp;                protocolString = getPrivateMessageString(input);</b>
+<b class="nc"><i>55</i>&nbsp;                break;</b>
+<i>56</i>&nbsp;            case &quot;/broadcast&quot;:
+<b class="nc"><i>57</i>&nbsp;                protocolString = getBroadcastString(input);</b>
+<b class="nc"><i>58</i>&nbsp;                break;</b>
+<i>59</i>&nbsp;            case &quot;/new&quot;:
+<b class="nc"><i>60</i>&nbsp;                protocolString = getNewString(input);</b>
+<b class="nc"><i>61</i>&nbsp;                break;</b>
+<i>62</i>&nbsp;            case &quot;/play&quot;:
+<b class="nc"><i>63</i>&nbsp;                protocolString = getPlayString(input);</b>
+<b class="nc"><i>64</i>&nbsp;                break;</b>
+<i>65</i>&nbsp;            case &quot;/list&quot;:
+<b class="nc"><i>66</i>&nbsp;                protocolString = getListString(input);</b>
+<b class="nc"><i>67</i>&nbsp;                break;</b>
+<i>68</i>&nbsp;            case &quot;/help&quot;:
+<b class="nc"><i>69</i>&nbsp;                protocolString = Protocol.DISPL + &quot;commands&quot;;</b>
+<b class="nc"><i>70</i>&nbsp;                break;</b>
+<i>71</i>&nbsp;            case &quot;/quit&quot;:
+<b class="nc"><i>72</i>&nbsp;                protocolString = Protocol.LGOUT + &quot;&quot;;</b>
+<b class="nc"><i>73</i>&nbsp;                pw.println(protocolString);</b>
+<b class="nc"><i>74</i>&nbsp;                logOut();</b>
+<i>75</i>&nbsp;                return;
+<i>76</i>&nbsp;            default:
+<b class="nc"><i>77</i>&nbsp;                throw new NotACommandException(&quot;Please enter a valid command&quot;);</b>
+<i>78</i>&nbsp;        }
+<b class="nc"><i>79</i>&nbsp;        pw.println(protocolString);</b>
+<i>80</i>&nbsp;    }
+<i>81</i>&nbsp;
+<i>82</i>&nbsp;    /**
+<i>83</i>&nbsp;     * Builds network protocol string for the &quot;change&quot; command
+<i>84</i>&nbsp;     * @param input Input from client
+<i>85</i>&nbsp;     * @return The network protocol string for the &quot;change&quot; command
+<i>86</i>&nbsp;     * @throws NotACommandException If the input doesn&#39;t match any command
+<i>87</i>&nbsp;     */
+<i>88</i>&nbsp;    String getChangeString(String input) throws NotACommandException {
+<i>89</i>&nbsp;
+<b class="nc"><i>90</i>&nbsp;        String[] line = input.split(&quot; &quot;,3);</b>
+<i>91</i>&nbsp;
+<b class="nc"><i>92</i>&nbsp;        if (line.length &lt; 3) throw new NotACommandException(&quot;Please add an argument to your command&quot;);</b>
+<i>93</i>&nbsp;
+<b class="nc"><i>94</i>&nbsp;        String option = line[1];</b>
+<b class="nc"><i>95</i>&nbsp;        String argument = line[2];</b>
+<i>96</i>&nbsp;
+<b class="nc"><i>97</i>&nbsp;        if (option.equalsIgnoreCase(&quot;name&quot;)) {</b>
+<b class="nc"><i>98</i>&nbsp;            return Protocol.CHNGE + &quot;§Nickname§&quot; + argument;</b>
+<i>99</i>&nbsp;
+<b class="nc"><i>100</i>&nbsp;        } else if (option.equalsIgnoreCase(&quot;status&quot;)) {</b>
+<b class="nc"><i>101</i>&nbsp;            if (argument.equalsIgnoreCase(&quot;ready&quot;) || argument.equalsIgnoreCase(&quot;waiting&quot;)) {</b>
+<b class="nc"><i>102</i>&nbsp;                return Protocol.CHNGE + &quot;§Status§&quot; + argument.toUpperCase();</b>
+<i>103</i>&nbsp;            }
+<i>104</i>&nbsp;        }
+<b class="nc"><i>105</i>&nbsp;        throw new NotACommandException(&quot;Please enter a valid command&quot;);</b>
+<i>106</i>&nbsp;    }
+<i>107</i>&nbsp;
+<i>108</i>&nbsp;    /**
+<i>109</i>&nbsp;     * Builds network protocol string for the &quot;msg&quot; command
+<i>110</i>&nbsp;     * @param input Input from client
+<i>111</i>&nbsp;     * @return The network protocol string for the &quot;msg&quot; command
+<i>112</i>&nbsp;     * @throws NotACommandException If the input doesn&#39;t match any command
+<i>113</i>&nbsp;     */
+<i>114</i>&nbsp;    String getPrivateMessageString(String input) throws NotACommandException {
+<b class="nc"><i>115</i>&nbsp;        String[] line = input.split(&quot; &quot;, 3);</b>
+<b class="nc"><i>116</i>&nbsp;        if (line.length &lt; 3) {</b>
+<b class="nc"><i>117</i>&nbsp;            throw new NotACommandException(&quot;Please add a name and a message to your command&quot;);</b>
+<i>118</i>&nbsp;        }
+<b class="nc"><i>119</i>&nbsp;        String name = line[1];</b>
+<b class="nc"><i>120</i>&nbsp;        String message = line[2];</b>
+<b class="nc"><i>121</i>&nbsp;        return Protocol.CHATM + &quot;§Private§&quot; + name + &quot;§&quot; + message;</b>
+<i>122</i>&nbsp;    }
+<i>123</i>&nbsp;
+<i>124</i>&nbsp;    /**
+<i>125</i>&nbsp;     * Builds network protocol string for the &quot;broadcast&quot; command
+<i>126</i>&nbsp;     * @param input Input from client
+<i>127</i>&nbsp;     * @return The network protocol string for the &quot;broadcast&quot; command
+<i>128</i>&nbsp;     * @throws NotACommandException If the input doesn&#39;t match any command
+<i>129</i>&nbsp;     */
+<i>130</i>&nbsp;    String getBroadcastString(String input) throws NotACommandException {
+<b class="nc"><i>131</i>&nbsp;        String[] line = input.split(&quot; &quot;, 2);</b>
+<b class="nc"><i>132</i>&nbsp;        if (line.length &lt; 2) {</b>
+<b class="nc"><i>133</i>&nbsp;            throw new NotACommandException(&quot;Please add a message&quot;);</b>
+<i>134</i>&nbsp;        }
+<b class="nc"><i>135</i>&nbsp;        String message = line[1];</b>
+<b class="nc"><i>136</i>&nbsp;        return Protocol.CHATM + &quot;§Broadcast§&quot; + message;</b>
+<i>137</i>&nbsp;    }
+<i>138</i>&nbsp;
+<i>139</i>&nbsp;    /**
+<i>140</i>&nbsp;     * Builds network protocol string for the &quot;new&quot; command
+<i>141</i>&nbsp;     * @param input Input from client
+<i>142</i>&nbsp;     * @return The network protocol string for the &quot;new&quot; command
+<i>143</i>&nbsp;     * @throws NotACommandException If the input doesn&#39;t match any command
+<i>144</i>&nbsp;     */
+<i>145</i>&nbsp;    String getNewString(String input) throws NotACommandException {
+<b class="nc"><i>146</i>&nbsp;        String[] line = input.split(&quot; &quot;,2);</b>
+<b class="nc"><i>147</i>&nbsp;        if (line.length &lt; 2) {</b>
+<b class="nc"><i>148</i>&nbsp;            throw new NotACommandException(&quot;Please enter a valid command&quot;);</b>
+<i>149</i>&nbsp;        }
+<b class="nc"><i>150</i>&nbsp;        if (line[1].equalsIgnoreCase(&quot;game&quot;)) {</b>
+<b class="nc"><i>151</i>&nbsp;            return Protocol.NWGME + &quot;§New&quot;;</b>
+<i>152</i>&nbsp;        }
+<b class="nc"><i>153</i>&nbsp;        throw new NotACommandException(&quot;Please enter a valid command&quot;);</b>
+<i>154</i>&nbsp;    }
+<i>155</i>&nbsp;
+<i>156</i>&nbsp;    /**
+<i>157</i>&nbsp;     * Builds network protocol string for the &quot;play&quot; command
+<i>158</i>&nbsp;     * @param input Input from client
+<i>159</i>&nbsp;     * @return The network protocol string for the &quot;play&quot; command
+<i>160</i>&nbsp;     * @throws NotACommandException If the input doesn&#39;t match any command
+<i>161</i>&nbsp;     */
+<i>162</i>&nbsp;    String getPlayString(String input) throws NotACommandException {
+<b class="nc"><i>163</i>&nbsp;        String[] line = input.split(&quot; &quot;, 5);</b>
+<b class="nc"><i>164</i>&nbsp;        if (line.length &lt; 5) {</b>
+<b class="nc"><i>165</i>&nbsp;            throw new NotACommandException(&quot;Usage: /play [PlaceFrom] [n] [PlaceTo] [n]&quot;);</b>
+<i>166</i>&nbsp;        }
+<i>167</i>&nbsp;
+<b class="nc"><i>168</i>&nbsp;        String placeFrom = line[1];</b>
+<b class="nc"><i>169</i>&nbsp;        String fromNumber = line[2]; //probably can change to int later</b>
+<b class="nc"><i>170</i>&nbsp;        String placeTo = line[3];</b>
+<b class="nc"><i>171</i>&nbsp;        String toNumber = line[4]; //probably can change to int later</b>
+<i>172</i>&nbsp;
+<b class="nc"><i>173</i>&nbsp;        clientLog.debug(&quot;Command: &quot; + Protocol.PUTTO + &quot;§Card§&quot; + placeFrom + &quot;§&quot; + fromNumber + &quot;§&quot; + placeTo + &quot;§&quot; + toNumber);</b>
+<b class="nc"><i>174</i>&nbsp;        return Protocol.PUTTO + &quot;§Card§&quot; + placeFrom + &quot;§&quot; + fromNumber + &quot;§&quot; + placeTo + &quot;§&quot; + toNumber;</b>
+<i>175</i>&nbsp;    }
+<i>176</i>&nbsp;
+<i>177</i>&nbsp;    /**
+<i>178</i>&nbsp;     * Builds network protocol string for the &quot;list&quot; command
+<i>179</i>&nbsp;     * @param input Input from client
+<i>180</i>&nbsp;     * @return The network protocol string for the &quot;list&quot; command
+<i>181</i>&nbsp;     * @throws NotACommandException If the input doesn&#39;t match any command
+<i>182</i>&nbsp;     */
+<i>183</i>&nbsp;    String getListString(String input) throws NotACommandException {
+<b class="nc"><i>184</i>&nbsp;        String[] line = input.split(&quot; &quot;,2);</b>
+<b class="nc"><i>185</i>&nbsp;        if (line.length &lt; 2) {</b>
+<b class="nc"><i>186</i>&nbsp;            throw new NotACommandException(&quot;Please add an option to your command&quot;);</b>
+<i>187</i>&nbsp;        }
+<b class="nc"><i>188</i>&nbsp;        String option = line[1].toLowerCase();</b>
+<b class="nc"><i>189</i>&nbsp;        if (!(option.equals(&quot;games&quot;) || option.equals(&quot;players&quot;))) {</b>
+<b class="nc"><i>190</i>&nbsp;            throw new NotACommandException(&quot;Please add a valid option to your command&quot;);</b>
+<i>191</i>&nbsp;        }
+<b class="nc"><i>192</i>&nbsp;        return Protocol.DISPL + &quot;§&quot; + option;</b>
+<i>193</i>&nbsp;    }
+<i>194</i>&nbsp;
+<i>195</i>&nbsp;    /**
+<i>196</i>&nbsp;     * Terminates SBClientListener thread
+<i>197</i>&nbsp;     */
+<i>198</i>&nbsp;    void logOut() {
+<b class="nc"><i>199</i>&nbsp;        pw.close();</b>
+<i>200</i>&nbsp;        try {
+<b class="nc"><i>201</i>&nbsp;            sock.close();</b>
+<b class="nc"><i>202</i>&nbsp;        } catch (IOException e) {</b>
+<b class="nc"><i>203</i>&nbsp;            clientLog.warn(&quot;Issue with closing the socket&quot;);</b>
+<b class="nc"><i>204</i>&nbsp;        }</b>
+<i>205</i>&nbsp;    }
+<i>206</i>&nbsp;
+<i>207</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-04-05 22:38</div>
+</div>
+</body>
+</html>

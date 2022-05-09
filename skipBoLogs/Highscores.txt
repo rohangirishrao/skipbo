@@ -1,0 +1,12 @@
+Skip-Bro Highscores (score = turns to win / stockpile size; lower scores are better)
+
+2020-05-12 17:44; Guillaume, Manuela, Janni1, Rohan; WINNER: Guillaume, SCORE: 3.20
+2020-05-12 21:58; Manuela, Rohan, Janni; WINNER: Janni, SCORE: 3.20
+2020-05-12 17:28; Rohan, Manuela; WINNER: Manuela, SCORE: 3.40
+2020-05-12 17:17; Gertrud, BruceLee, Franz, Margarete; WINNER: BruceLee, SCORE: 4.40
+2020-05-12 16:07; CHEATER1, CHEATER, SickDucker, Rohan1; WINNER: CHEATER1, SCORE: 100.00
+2020-05-12 16:19; CHEATER, ISagNitStern; WINNER: CHEATER, SCORE: 100.00
+2020-05-12 21:59; Manuela, CHEATER, Rohan, Janni; WINNER: CHEATER, SCORE: 100.00
+2020-05-12 22:00; CHEATER1, CHEATER, Rohan, DMX; WINNER: CHEATER1, SCORE: 100.00
+2020-05-13 15:28; CHEATER, Manuela; WINNER: CHEATER, SCORE: 100.00
+2020-05-13 15:50; CHEATER, Manuela; WINNER: CHEATER, SCORE: 100.00
